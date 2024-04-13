@@ -29,4 +29,4 @@ model_evaluation.calculate_metrics()
 model_evaluation.print_metrics()
 #printing results 
 #for review in corpus:
- # print(sentiment_analyzer.analyze_sentiment(review))
+#print(sentiment_analyzer.analyze_sentiment(review))
