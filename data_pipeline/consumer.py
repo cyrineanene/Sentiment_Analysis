@@ -2,7 +2,7 @@ from kafka import KafkaConsumer
 import json
 
 bootstrap_servers = 'localhost:9092'
-books_topic = 'books'
+books_topic = 'p2m'
 
 # Create a Kafka consumer
 consumer = KafkaConsumer(books_topic, bootstrap_servers=bootstrap_servers, 
