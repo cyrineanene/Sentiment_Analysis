@@ -1,5 +1,4 @@
-#extraction of 500 line from dataset to test the models, minimizing the running time
-
+#minimizing the running time
 import csv
 
 def extract_lines(input_file, output_file, num_lines):

@@ -1,6 +1,5 @@
 from sklearn.metrics import f1_score, confusion_matrix, accuracy_score, mean_squared_error, r2_score
 
-
 class Evaluation:
     def __init__(self, y_true, y_pred):
         self.y_true = y_true
