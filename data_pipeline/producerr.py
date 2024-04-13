@@ -3,6 +3,7 @@ import csv
 import time
 import json
 
+
 #function to read csv file
 def read_csv(file_path):
     data = []
@@ -25,14 +26,17 @@ books_schema = {
             "review/summary": str,
             "review/text": str,     
 }
+# books_schema = { #just for the test 
+#     "review":str,
+#     "sentiment":str,
+# }
 
 if __name__ == "__main__":
     bootstrap_servers = 'localhost:9092'
-    # For books data
     #topic name 
-    books_topic = "books"
+    books_topic = "p2m"
     #read csv file using read_csv function
-    books_data = read_csv("./Model/Books_rating.csv")
+    books_data = read_csv('datasets/BR.csv')
     # Create a Kafka producer
     producer = KafkaProducer(bootstrap_servers=bootstrap_servers, 
                              value_serializer=lambda v: json.dumps(v).encode('utf-8'))

@@ -6,8 +6,14 @@ import pandas as pd
 from sklearn.model_selection import train_test_split
 
 #extraction
-extract_lines('datasets/IMDB_Dataset.csv', 'datasets/newbooks.csv', 10000)
-df = pd.read_csv("datasets/newbooks.csv")
+extract_lines('datasets/IMDB_Dataset.csv', 'datasets/imbd_less.csv', 10000)
+df = pd.read_csv("datasets/imbd_less.csv")
+
+extract_lines('datasets/books_data.csv', 'datasets/books1.csv', 100)
+df1 = pd.read_csv("datasets/books1.csv")
+
+extract_lines('datasets/Books_rating.csv', 'datasets/books2.csv', 100)
+df2 = pd.read_csv("datasets/books2.csv")
 
 #data preparation
 preprocessor = DataPreprocessor()
@@ -27,6 +33,13 @@ sentiment_analyzer = SentimentAnalyzer("model/saved_model/count-Vectorizer.pkl",
 model_evaluation = Evaluation(Y_train, text_model.predict(X_train))
 model_evaluation.calculate_metrics()
 model_evaluation.print_metrics()
+
 #printing results 
-#for review in corpus:
-#print(sentiment_analyzer.analyze_sentiment(review))
+# for i in range(3):
+#     ch=input('What did you think of the move The notebook?')
+#     print(sentiment_analyzer.analyze_sentiment(ch))
+# reviews=list()
+# for i in range(6):
+#     reviews.append(corpus[i])
+# for review in reviews:
+#     print(sentiment_analyzer.analyze_sentiment(review))
