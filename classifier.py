@@ -21,6 +21,8 @@ class TextModel:
         self.vectorizer = pickle.load(open(vectorizer_path, 'rb'))
         self.classifier = pickle.load(open(model_path, 'rb'))
 
+
+
 class SentimentAnalyzer:
     def __init__(self, vectorizer_path, model_path):
         self.text_model = TextModel()
