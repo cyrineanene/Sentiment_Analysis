@@ -22,9 +22,9 @@ def model_train(df):
     text_model.train(X_train, Y_train)
 
 #model evaluation
-    model_evaluation = Evaluation(Y_train, text_model.predict(X_train))
-    model_evaluation.calculate_metrics()
-    model_evaluation.print_metrics()
+    # model_evaluation = Evaluation(Y_train, text_model.predict(X_train))
+    # model_evaluation.calculate_metrics()
+    # model_evaluation.print_metrics()
 
 #model saving
     text_model.save("saved_model/count-Vectorizer.pkl", "saved_model/Classification.pkl")
