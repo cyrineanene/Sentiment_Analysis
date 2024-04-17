@@ -29,9 +29,9 @@ def model_train(df):
 #model saving
     text_model.save("saved_model/count-Vectorizer.pkl", "saved_model/Classification.pkl")
     sentiment_analyzer = SentimentAnalyzer("saved_model/count-Vectorizer.pkl", "saved_model/Classification.pkl")
-    return sentiment_analyzer, model_evaluation
+    return sentiment_analyzer
 
-model, model_evaluation = model_train(df)
+model= model_train(df)
 
 #printing results 
 # for i in range(3):
