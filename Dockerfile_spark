@@ -1,0 +1,25 @@
+# Use the official Spark image from the Docker Hub as the base image
+FROM bitnami/spark:3.5.1
+
+# Set the working directory in the Docker container
+WORKDIR /app1
+
+# Copy the Python script and other necessary files into the Docker container
+COPY spark.py /app1/spark.py
+COPY model_training.py /app1/model_training.py
+COPY classifier.py /app1/classifier.py
+COPY datasets/ /app1/datasets
+
+# Install necessary Python psackages
+RUN pip install pyspark==3.5.1 kafka-python
+
+# Set up necessary environment variables (if any)
+ENV SPARK_HOME=/opt/bitnami/spark
+ENV PATH=$PATH:$SPARK_HOME/bin:$SPARK_HOME/sbin
+ENV PYSPARK_PYTHON=python3
+
+# Open necessary ports (Spark UI at 4040, master at 7077, worker at 8081)
+EXPOSE 4040 7077 8081
+
+# Command to run on container start, here we are using the spark-submit to run your Python script
+CMD ["spark-submit", "--master", "local[*]", "/app/your_spark_script.py"]
