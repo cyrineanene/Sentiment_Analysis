@@ -1,38 +1,34 @@
 from data_extraction import extract_lines
 from data_cleaning import DataPreprocessor
-from classifier import TextModel, SentimentAnalyzer
-from evaluation import Evaluation
+from classifier import TextModel, Evaluation
 import pandas as pd
 from sklearn.model_selection import train_test_split
 
-# df = pd.read_csv('datasets/IMDB_Dataset.csv')
+# path= 'datasets/IMDB_Dataset.csv'
 
 def model_train(path):
     df = pd.read_csv(path)
-#data preparation
+
+    #data preparation
     preprocessor = DataPreprocessor()
     corpus = preprocessor.preprocess(df)
 
-#model NLP fitting
+    #model NLP fitting
     text_model = TextModel()
     X = text_model.vectorizer.fit_transform(corpus).toarray()
     y = df['sentiment']
 
-#training model
+    #training model
     X_train, X_test, Y_train, Y_test = train_test_split(X, y, test_size=0.2, random_state=101)
     text_model.train(X_train, Y_train)
 
-#model evaluation
-    # model_evaluation = Evaluation(Y_train, text_model.predict(X_train))
-    # model_evaluation.calculate_metrics()
-    # model_evaluation.print_metrics()
-
-#model saving
+    #model saving
     text_model.save("saved_model/count-Vectorizer.pkl", "saved_model/Classification.pkl")
-    sentiment_analyzer = SentimentAnalyzer("saved_model/count-Vectorizer.pkl", "saved_model/Classification.pkl")
-    return sentiment_analyzer
+    df['sentiment'] = df['text'].apply(text_model.analyze_sentiment) #lezm el colonne taa texte esmha ykoun texte
+    return df
 
-# model= model_train(df)
+# df= model_train(df)
+
 
 #printing results 
 # for i in range(3):

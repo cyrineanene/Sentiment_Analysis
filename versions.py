@@ -1,7 +1,6 @@
 import sklearn
 import pandas as pd
 import nltk
-import pickle
 
 print("scikit-learn version:", sklearn.__version__)
 print("pandas version:", pd.__version__)  # Access version through Series class
