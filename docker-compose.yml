@@ -1,0 +1,61 @@
+version: '3.3'
+services:
+  zookeeper:
+      container_name: zookeeper-cntr
+      restart: always
+      image: docker.io/bitnami/zookeeper:3.8
+      ports:
+        - "2181:2181"
+      environment:
+        - ALLOW_ANONYMOUS_LOGIN=yes 
+      networks:
+        - books_network
+
+  kafka:
+      container_name: kafka-cntr
+      restart: always
+      image: docker.io/bitnami/kafka:3.3
+      ports:
+        - "9093:9093"
+      environment:
+        - KAFKA_BROKER_ID=1
+        - KAFKA_CFG_ZOOKEEPER_CONNECT=zookeeper:2181  
+        - ALLOW_PLAINTEXT_LISTENER=yes 
+        - KAFKA_CFG_LISTENER_SECURITY_PROTOCOL_MAP=CLIENT:PLAINTEXT,EXTERNAL:PLAINTEXT 
+        - KAFKA_CFG_LISTENERS=CLIENT://:9092,EXTERNAL://:9093 
+        - KAFKA_CFG_ADVERTISED_LISTENERS=CLIENT://kafka:9092,EXTERNAL://localhost:9093 
+        - KAFKA_CFG_INTER_BROKER_LISTENER_NAME=CLIENT  
+      depends_on:
+        - zookeeper
+      networks:
+        - books_network
+
+  spark-master:
+    build: .   
+    command: bin/spark-class org.apache.spark.deploy.master.Master  
+    ports:
+      - "9090:8080"  
+      - "7077:7077" 
+    deploy:
+      resources:
+        limits:
+          cpus: '2'  
+    networks:
+      - books_network 
+
+  spark-worker-1:
+    build: .
+    command: bin/spark-class org.apache.spark.deploy.worker.Worker spark://spark-master:7077 
+    depends_on:
+      - spark-master  
+    environment:
+      SPARK_MODE: worker
+      SPARK_WORKER_CORES: 2 
+      SPARK_WORKER_MEMORY: 2g  
+      SPARK_MASTER_URL: spark://spark-master:7077 
+    networks:
+      - books_network
+
+networks:
+  books_network:
+    driver: bridge 
