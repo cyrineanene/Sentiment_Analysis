@@ -1,7 +1,10 @@
 from pyspark.sql import SparkSession
-from pyspark.ml.classification import LogisticRegressionModel
 from pyspark.sql.functions import col
-from model_training import model_train
+from pyspark.sql.functions import from_json, col
+from pyspark.sql.types import StructType, StructField, DoubleType, IntegerType, StringType
+from pyspark.sql.functions import udf
+from classifier import TextModel
+from pyspark.sql.functions import lit
 
 # Initialize Spark Session
 spark = SparkSession.builder \
@@ -18,9 +21,6 @@ df = spark \
     .load()
 
 # We need to convert the binary 'value' column into a string then to JSON
-from pyspark.sql.functions import from_json, col
-from pyspark.sql.types import StructType, StructField, DoubleType, IntegerType, StringType
-
 schema = StructType([
     StructField("Id", IntegerType(), True),
     StructField("Title", StringType(), True),
@@ -40,19 +40,11 @@ json_df = df.select(
     from_json(col("value").cast("string"), schema).alias("books_data") 
 )
 # json_df.show()
-# # Selecting the features column and converting to DenseVector 
-from pyspark.sql.functions import udf
-from classifier import TextModel
-# json_df.write.csv('dataset/spark.csv', header=True, mode='overwrite')
 
 model=TextModel()
-
-# model = model_train('dataset/spark.csv')
 sentiment_analysis_udf = udf(model.analyze_sentiment, StringType())
 
-from pyspark.sql.functions import lit
-
-# # Apply UDF to DataFrame
+# Apply UDF to DataFrame
 result_df = json_df.withColumn("books_data.sentiment", lit(sentiment_analysis_udf(col("books_data.review/text"))))
 
 # Show results
