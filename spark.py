@@ -53,7 +53,7 @@ sentiment_analysis_udf = udf(model.analyze_sentiment, StringType())
 from pyspark.sql.functions import lit
 
 # # Apply UDF to DataFrame
-result_df = json_df.withColumn("sentiment", lit(sentiment_analysis_udf(col("books_data.review/text"))))
+result_df = json_df.withColumn("books_data.sentiment", lit(sentiment_analysis_udf(col("books_data.review/text"))))
 
 # Show results
 result_df.select("books_data.Id", "books_data.review/text", "books_data.sentiment").show(truncate=False)
