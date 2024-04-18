@@ -21,6 +21,12 @@ class TextModel:
         self.vectorizer = pickle.load(open(vectorizer_path, 'rb'))
         self.classifier = pickle.load(open(model_path, 'rb'))
 
+    def analyze_sentiment(self, sentence):
+        sentence_transformed = self.vectorizer.transform([sentence]).toarray()
+        result = self.classifier.predict(sentence_transformed)[0]
+        return 'Positive review' if result == 1 else 'Negative review'
+    
+
 
 
 class SentimentAnalyzer:

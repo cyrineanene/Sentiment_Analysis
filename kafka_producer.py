@@ -36,7 +36,7 @@ if __name__ == "__main__":
     #topic name 
     books_topic = "p2m"
     #read csv file using read_csv function
-    books_data = read_csv('datasets/BR.csv')
+    books_data = read_csv('datasets/Books_rating.csv')
     # Create a Kafka producer
     producer = KafkaProducer(bootstrap_servers=bootstrap_servers, 
                              value_serializer=lambda v: json.dumps(v).encode('utf-8'))

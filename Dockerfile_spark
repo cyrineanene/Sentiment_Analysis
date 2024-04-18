@@ -23,3 +23,5 @@ EXPOSE 4040 7077 8081
 
 # Command to run on container start, here we are using the spark-submit to run your Python script
 CMD ["spark-submit", "--master", "local[*]", "/app/your_spark_script.py"]
+
+#after building the image, run this to run container: docker run -p 4040:4040 -p 7077:7077 -p 8081:8081 spark-sentiment-analysis

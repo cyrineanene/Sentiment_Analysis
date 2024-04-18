@@ -6,7 +6,7 @@ from model_training import model_train
 # Initialize Spark Session
 spark = SparkSession.builder \
     .appName('sentiment model consumer') \
-    .config("spark.some.config.option", "some-value") \
+    .config("spark.jars.packages", "org.apache.spark:spark-sql-kafka-0-10_2.12:3.5.1") \
     .getOrCreate()
 
 # Example to load data directly from Kafka (if your consumer pushes it into a topic that Spark reads)
@@ -31,22 +31,29 @@ schema = StructType([
     StructField("review/score", DoubleType(), True),
     StructField("review/time", StringType(), True),
     StructField("review/summary", StringType(), True),
-    StructField("review/text", StringType(), True),         
+    StructField("review/text", StringType(), True),
+    StructField("sentiment", StringType(), True),
 ])
 
+        # Show data
 json_df = df.select(
-    from_json(col("value").cast("string"), schema).alias("parsed_value")
+    from_json(col("value").cast("string"), schema).alias("books_data") 
 )
-
-# Selecting the features column and converting to DenseVector 
+# json_df.show()
+# # Selecting the features column and converting to DenseVector 
 from pyspark.sql.functions import udf
-from classifier import analyze_sentiment
+from classifier import TextModel
+# json_df.write.csv('dataset/spark.csv', header=True, mode='overwrite')
 
-model = model_train(df)
-sentiment_analysis_udf = udf(analyze_sentiment, StringType())
+model=TextModel()
 
-# Apply UDF to DataFrame
-result_df = json_df.withColumn("sentiment", sentiment_analysis_udf(col("review/text")))
+# model = model_train('dataset/spark.csv')
+sentiment_analysis_udf = udf(model.analyze_sentiment, StringType())
+
+from pyspark.sql.functions import lit
+
+# # Apply UDF to DataFrame
+result_df = json_df.withColumn("sentiment", lit(sentiment_analysis_udf(col("books_data.review/text"))))
 
 # Show results
-result_df.select("Id", "Title", "sentiment").show(truncate=False)
+result_df.select("books_data.Id", "books_data.review/text", "books_data.sentiment").show(truncate=False)

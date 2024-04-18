@@ -5,9 +5,10 @@ from evaluation import Evaluation
 import pandas as pd
 from sklearn.model_selection import train_test_split
 
-df = pd.read_csv('datasets/IMDB_Dataset.csv')
+# df = pd.read_csv('datasets/IMDB_Dataset.csv')
 
-def model_train(df):
+def model_train(path):
+    df = pd.read_csv(path)
 #data preparation
     preprocessor = DataPreprocessor()
     corpus = preprocessor.preprocess(df)
@@ -31,7 +32,7 @@ def model_train(df):
     sentiment_analyzer = SentimentAnalyzer("saved_model/count-Vectorizer.pkl", "saved_model/Classification.pkl")
     return sentiment_analyzer
 
-model= model_train(df)
+# model= model_train(df)
 
 #printing results 
 # for i in range(3):
