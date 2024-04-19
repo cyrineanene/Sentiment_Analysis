@@ -23,9 +23,9 @@ def model_train(path):
     text_model.train(X_train, Y_train)
 
     #model saving
-    text_model.save("saved_model/count-Vectorizer.pkl", "saved_model/Classification.pkl")
     df['sentiment'] = df['text'].apply(text_model.analyze_sentiment) #lezm el colonne taa texte esmha ykoun texte
-    return df
+    text_model.save("saved_model/count-Vectorizer.pkl", "saved_model/Classification.pkl")
+    
 
 # df= model_train(df)
 
