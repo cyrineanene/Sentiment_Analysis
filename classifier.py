@@ -12,7 +12,6 @@ class TextModel:
         self.classifier.fit(X_train, y_train)
         
     def predict(self, X_test):
-        
         return self.classifier.predict(X_test)
     
     def save(self, vectorizer_path, model_path):

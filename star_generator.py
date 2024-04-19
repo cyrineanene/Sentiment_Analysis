@@ -1,66 +1,42 @@
-from nltk.corpus import stopwords
-from nltk.stem import WordNetLemmatizer
+import pickle
 from sklearn.feature_extraction.text import TfidfVectorizer
-import pandas as pd
+from sklearn.model_selection import train_test_split
+from sklearn.naive_bayes import MultinomialNB
+from sklearn.metrics import  f1_score, confusion_matrix, accuracy_score
 
+class StarGenerator:
+    def __init__(self, max_features=100):
+        self.tfidf_vectorizer = TfidfVectorizer(analyzer='word', token_pattern=r'\w{1,}', ngram_range=(1,2), max_features=max_features)
+        self.classifier = MultinomialNB(alpha=0.6)
 
-# Function to preprocess text
-def preprocess_text(text):
-    stop = set(stopwords.words('english'))
-    lemmatizer = WordNetLemmatizer()
+    def train(self, X_train, y_train):
+        self.classifier.fit(X_train, y_train)
 
-    # Convert to lowercase
-    preprocessed_text = " ".join(word.lower() for word in text.split())
-
-    # Remove punctuation
-    preprocessed_text = preprocessed_text.str.replace('[^\w\s]', '')
-
-    # Remove stopwords
-    preprocessed_text = " ".join(word for word in preprocessed_text.split() if word not in stop)
-
-    # Remove digits
-    preprocessed_text = preprocessed_text.str.replace('\d+', '')
-
-    # Lemmatize
-    preprocessed_text = [lemmatizer.lemmatize(word) for word in preprocessed_text]
-
-    return preprocessed_text
-
-# Function to drop NaN values and select columns
-def drop_nan_and_select_columns(df):
+    def predict(self, X_test):
+        return self.classifier.predict(X_test)
     
-    df2 = df[['Id', 'review/text']]
-    df3 = df2.dropna()
-    return df3
+    def save_model_and_vectorizer(self, model_filename='saved_model/star_generator.pkl', vectorizer_filename='vectorizer_star_generator.pkl'):
+        with open(model_filename, 'wb') as model_file:
+            pickle.dump(self.model, model_file)
+        with open(vectorizer_filename, 'wb') as vectorizer_file:
+            pickle.dump(self.tfidf_vectorizer, vectorizer_file)
 
+    def load_model_and_vectorizer(self, model_filename='saved_model/star_generator.pkl', vectorizer_filename='vectorizer_star_generator.pkl'):
+        self.vectorizer = pickle.load(open(model_filename, 'rb'))
+        self.classifier = pickle.load(open(model_filename, 'rb'))
+        return self.classifier,self.vectorizer
 
-# # Drop NaN values and select columns
-# df3 = drop_nan_and_select_columns(df)
+class Evaluation:
+    def __init__(self, y_true, y_pred):
+        self.y_true = y_true
+        self.y_pred = y_pred
 
-# # Preprocess the text
-# df3['Cleaned'] = preprocess_text(df3['review/text'])
+    def calculate_metrics(self):
+        self.f1 = f1_score(self.y_true, self.y_pred, average='binary')  
+        self.confusion_matrix = confusion_matrix(self.y_true, self.y_pred)
+        self.accuracy = accuracy_score(self.y_true, self.y_pred)
 
-
-def create_and_transform_tfidf_vectorizer(x, max_features=5000):
-    
-    tfidf_vectorizer = TfidfVectorizer(analyzer='word', token_pattern=r'\w{1,}', ngram_range=(1, 2), max_features=max_features)
-    x_tfidf = tfidf_vectorizer.fit_transform(x)
-    return tfidf_vectorizer, x_tfidf
-
-# tfidf_vect_ngram, xtest_tfidf_ngram = create_and_transform_tfidf_vectorizer(x1)
-
-
-# Function to make predictions using the model and save results to a CSV file
-def make_predictions_and_save(model, x_tfidf, original_text_series, output_file):
-    
-    # Make predictions
-    test_pred = model.predict(x_tfidf)
-    
-    # Create a DataFrame with original text and predicted scores
-    df_results = pd.DataFrame({'review/text': original_text_series, 'review/score': test_pred})
-    
-    # Save results to a CSV file
-    df_results.to_csv(output_file, index=False)
-
-
-# make_predictions_and_save(model, xtest_tfidf_ngram, x1, "predictions.csv")
+    def print_metrics(self):
+        print("F1 Score:", self.f1)
+        print("Confusion Matrix:\n", self.confusion_matrix)
+        print("Accuracy:", self.accuracy)

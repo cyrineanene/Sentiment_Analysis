@@ -1,59 +1,40 @@
-import pandas as pd
+import nltk
 from nltk.corpus import stopwords
 from nltk.stem import WordNetLemmatizer
+import re
+import pandas as pd
 
+nltk.download('stopwords')
+nltk.download('wordnet')
+nltk.download('omw-1.4')
 
-def extract_values(df, columns, pattern):
- for column in columns:
-        df[column] = df[column].str.extract(pattern)
- return df
+class CleanText:
+    def __init__(self, df):
+        self.text = df['review/text']
 
-# columns_to_extract = ['authors', 'categories']
-# pattern = r'\'(.*)\''
-# df = extract_values(df, columns_to_extract, pattern)
+    def clean_text(self):
+        # Lowercase and split the text
+        cleaned_text = " ".join(word.lower() for word in self.text.split())
+        # Remove non-word characters
+        text_without_non_word_chars = re.sub('[^\w\s]', '', cleaned_text)
+        # Get English stopwords
+        stop = set(stopwords.words('english'))
+        # Remove stopwords
+        text_without_stopwords = " ".join(word for word in text_without_non_word_chars.split() if word not in stop)
+        # Remove digits
+        text_without_digits = re.sub('\d+', '', text_without_stopwords)
+        # Initialize the lemmatizer
+        lemmatizer = WordNetLemmatizer()
+        # Lemmatize text
+        lemmatized_text = [lemmatizer.lemmatize(word) for word in text_without_digits.split()]
+        # Return a string of lemmatized text
+        return ' '.join(lemmatized_text)
 
+#hethy fi training hachty beha
+def merge_dataframes(df1, df2, on_column):
+    merged_df = pd.merge(df1, df2, on=on_column)
+    return merged_df
 
-
-
-# Function to clean the text
-def clean_text(text):
-    cleaned_text = " ".join(word.lower() for word in text.split())
-    return cleaned_text
-
-# Function to remove non-word characters
-def remove_non_word_chars(text):
-    text_without_non_word_chars = text.str.replace('[^\w\s]', '')
-    return text_without_non_word_chars
-
-# Function to remove stopwords
-def remove_stopwords(text):
-    stop = set(stopwords.words('english'))
-    text_without_stopwords = " ".join(word for word in text.split() if word not in stop)
-    return text_without_stopwords
-
-# Function to remove digits
-def remove_digits(text):
-    text_without_digits = text.str.replace('\d+', '')
-    return text_without_digits
-
-# Function to lemmatize the text
-def lemmatize_text(text):
-    lemmatizer = WordNetLemmatizer()
-    lemmatized_text = [lemmatizer.lemmatize(word) for word in text.split()]
-    return lemmatized_text
-
-
-# # Clean the text
-# df['Cleaned'] = df['review/text'].apply(clean_text)
-
-# # Remove non-word characters
-# df['Cleaned'] = remove_non_word_chars(df['Cleaned'])
-
-# # Remove stopwords
-# df['Cleaned'] = remove_stopwords(df['Cleaned'])
-
-# # Remove digits
-# df['Cleaned'] = remove_digits(df['Cleaned'])
-
-# # Lemmatize the text
-# df['Cleaned'] = lemmatize_text(df['Cleaned'])
+# Example usage
+# cleaner = CleanText("This is a sample Text with numbers 123 and stopwords.")
+# print(cleaner.clean_text())
