@@ -8,9 +8,9 @@ from model_prediction import model_predict
 
 # Constants
 INPUT_TOPIC = 'p2m'
-OUTPUT_TOPIC = 'predictions'
+OUTPUT_TOPIC = 'pred'
 KAFKA_SERVER = 'localhost:9092'
-BATCH_SIZE = 100  # Number of messages to collect before saving to CSV
+BATCH_SIZE = 20  # Number of messages to collect before saving to CSV
 BATCH_FOLDER = 'batches'
 CSV_FILENAME = 'data_batch.csv'
 
@@ -56,27 +56,29 @@ def process_data(filepath):
     # df = pd.read_csv(filepath)
     # print(df.head())
     #model_predict 
-    print("before pred")
     y_pred = model_predict(filepath)
-    return y_pred 
-#ekher el lista
-    # produce_data(loaded_model, 'batches/data_batch.csv')
+    return y_pred.tolist() 
 
 
 def produce_data(y_pred):
     """
     Produce data to a Kafka topic from a DataFrame.
     """
-
+    print('hi')
+    
     producer = KafkaProducer(
         bootstrap_servers=[KAFKA_SERVER],
         value_serializer=lambda v: json.dumps(v).encode('utf-8')
     )
-    
-
-    producer.send(OUTPUT_TOPIC, value=y_pred)
-    print(f"Sent message to {OUTPUT_TOPIC}: {y_pred}")
+    for index, row in enumerate(y_pred):
+        record = {'row_index': index, 'data': row.tolist()}
+    producer.send(OUTPUT_TOPIC, value=record)
+    print(f"Sent message to {OUTPUT_TOPIC}: {record}")
     time.sleep(1)
+
+    # producer.send(OUTPUT_TOPIC, value=y_pred)
+    # print(f"Sent message to {OUTPUT_TOPIC}: {y_pred}")
+    # time.sleep(1)
     
     
 

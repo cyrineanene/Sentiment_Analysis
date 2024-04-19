@@ -4,7 +4,7 @@ from sklearn.naive_bayes import MultinomialNB
 from sklearn.metrics import f1_score, confusion_matrix, accuracy_score
 
 class TextModel:
-    def __init__(self, max_features=1486):
+    def __init__(self, max_features=100):
         self.vectorizer = TfidfVectorizer(max_features=max_features)
         self.classifier = MultinomialNB() #the algorithm
         

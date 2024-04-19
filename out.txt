@@ -1,4 +1,92 @@
-Saved batch to batches/data_batch.csv_1713523771.csv
+Saved batch to batches/data_batch.csv_1713527591.csv
 before pred
 type = <class 'numpy.ndarray'>
-shape =  (100, 1486)
+shape =  (20, 100)
+Saved batch to batches/data_batch.csv_1713527591.csv
+before pred
+type = <class 'numpy.ndarray'>
+shape =  (20, 100)
+Saved batch to batches/data_batch.csv_1713527591.csv
+before pred
+type = <class 'numpy.ndarray'>
+shape =  (20, 100)
+Saved batch to batches/data_batch.csv_1713527591.csv
+before pred
+type = <class 'numpy.ndarray'>
+shape =  (20, 100)
+Saved batch to batches/data_batch.csv_1713527591.csv
+before pred
+type = <class 'numpy.ndarray'>
+shape =  (20, 100)
+Saved batch to batches/data_batch.csv_1713527591.csv
+before pred
+type = <class 'numpy.ndarray'>
+shape =  (20, 100)
+Saved batch to batches/data_batch.csv_1713527591.csv
+before pred
+type = <class 'numpy.ndarray'>
+shape =  (20, 100)
+Saved batch to batches/data_batch.csv_1713527591.csv
+before pred
+type = <class 'numpy.ndarray'>
+shape =  (20, 100)
+Saved batch to batches/data_batch.csv_1713527591.csv
+before pred
+type = <class 'numpy.ndarray'>
+shape =  (20, 100)
+Saved batch to batches/data_batch.csv_1713527591.csv
+before pred
+type = <class 'numpy.ndarray'>
+shape =  (20, 100)
+Saved batch to batches/data_batch.csv_1713527591.csv
+before pred
+type = <class 'numpy.ndarray'>
+shape =  (20, 100)
+Saved batch to batches/data_batch.csv_1713527591.csv
+before pred
+type = <class 'numpy.ndarray'>
+shape =  (20, 100)
+Saved batch to batches/data_batch.csv_1713527591.csv
+before pred
+type = <class 'numpy.ndarray'>
+shape =  (20, 100)
+Saved batch to batches/data_batch.csv_1713527591.csv
+before pred
+type = <class 'numpy.ndarray'>
+shape =  (20, 100)
+Saved batch to batches/data_batch.csv_1713527591.csv
+before pred
+type = <class 'numpy.ndarray'>
+shape =  (20, 100)
+Saved batch to batches/data_batch.csv_1713527591.csv
+before pred
+type = <class 'numpy.ndarray'>
+shape =  (20, 100)
+Saved batch to batches/data_batch.csv_1713527591.csv
+before pred
+type = <class 'numpy.ndarray'>
+shape =  (20, 100)
+Saved batch to batches/data_batch.csv_1713527591.csv
+before pred
+type = <class 'numpy.ndarray'>
+shape =  (20, 100)
+Saved batch to batches/data_batch.csv_1713527591.csv
+before pred
+type = <class 'numpy.ndarray'>
+shape =  (20, 100)
+Saved batch to batches/data_batch.csv_1713527591.csv
+before pred
+type = <class 'numpy.ndarray'>
+shape =  (20, 100)
+Saved batch to batches/data_batch.csv_1713527591.csv
+before pred
+type = <class 'numpy.ndarray'>
+shape =  (20, 100)
+Saved batch to batches/data_batch.csv_1713527591.csv
+before pred
+type = <class 'numpy.ndarray'>
+shape =  (20, 100)
+Saved batch to batches/data_batch.csv_1713527591.csv
+before pred
+type = <class 'numpy.ndarray'>
+shape =  (20, 100)

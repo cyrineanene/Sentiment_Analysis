@@ -56,5 +56,5 @@ if __name__ == "__main__":
         time.sleep(1)
 
     # Flush and close the producer
-    producer.flush()
-    producer.close()
+    # producer.flush()
+    # producer.close()
