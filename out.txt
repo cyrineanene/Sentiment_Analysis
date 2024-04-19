@@ -1,0 +1,4 @@
+Saved batch to batches/data_batch.csv_1713523771.csv
+before pred
+type = <class 'numpy.ndarray'>
+shape =  (100, 1486)

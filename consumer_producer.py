@@ -4,6 +4,7 @@ import pandas as pd
 import os
 import time
 import json
+from model_prediction import model_predict
 
 # Constants
 INPUT_TOPIC = 'p2m'
@@ -19,7 +20,7 @@ if not os.path.exists(BATCH_FOLDER):
 
 def consume_data():
     """
-    Consume data from a Kafka topic in JSON format.
+    Consume data from a Kafka topic in JSON format.  (and saves data in a list ())
     """
     # Create a Kafka consumer
     consumer = KafkaConsumer(
@@ -52,54 +53,35 @@ def process_data(filepath):
     """
     Load data from CSV, apply model predictions, and produce results to Kafka.
     """
-    df = pd.read_csv(filepath)
-    from model_training import model_train
-    result_df = model_train(df)
-    produce_data(result_df, 'batches/data_batch.csv')
+    # df = pd.read_csv(filepath)
+    # print(df.head())
+    #model_predict 
+    print("before pred")
+    y_pred = model_predict(filepath)
+    return y_pred 
+#ekher el lista
+    # produce_data(loaded_model, 'batches/data_batch.csv')
 
-def read_csv(file_path):
-    import csv
-    """
-    Safely read a CSV file into a DataFrame.
-    """
-    try:
-        if os.path.exists(file_path):
-            with open(file_path, 'r', newline='', encoding='utf-8') as csvfile:
-                reader = csv.DictReader(csvfile)
-                return [row for row in reader]
-        else:
-            print(f"Error: The file {file_path} does not exist.")
-            return []
-    except Exception as e:
-        print(f"An error occurred while reading the CSV file: {e}")
-        return []
 
-def produce_data(books_data,csv_path):
-    books_data = read_csv(csv_path)
+def produce_data(y_pred):
     """
     Produce data to a Kafka topic from a DataFrame.
     """
-    books_schema = {
-    "Id": int, "Title": str, "Price": str, "User_id": str, "profileName": str,
-    "review/helpfulness": str, "review/score": float, "review/time": str,
-    "review/summary": str, "review/text": str
-}
+
     producer = KafkaProducer(
         bootstrap_servers=[KAFKA_SERVER],
         value_serializer=lambda v: json.dumps(v).encode('utf-8')
     )
     
-    for line in books_data:
-        books_data_dict = {}
-        for key, value in books_schema.items():
-            raw_value = line.get(key, '')
-            books_data_dict[key] = value(raw_value) if raw_value != '' else None
-        producer.send(OUTPUT_TOPIC, value=books_data_dict)
-        print(f"Sent message to {OUTPUT_TOPIC}: {books_data_dict}")
-        time.sleep(1)
+
+    producer.send(OUTPUT_TOPIC, value=y_pred)
+    print(f"Sent message to {OUTPUT_TOPIC}: {y_pred}")
+    time.sleep(1)
     
-    producer.flush()
-    producer.close()
+    
 
 # Example usage
-consume_data()
+while True: 
+    pred = consume_data()
+    produce_data(pred)
+    time.sleep(1)
