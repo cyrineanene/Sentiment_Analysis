@@ -30,31 +30,16 @@ services:
       networks:
         - books_network
 
-  spark-master:
-    build: .   
-    command: bin/spark-class org.apache.spark.deploy.master.Master  
+  python_scripts:
+    container_name: python_scripts
+    build:
+      context: .
+      dockerfile: Dockerfile
     ports:
-      - "9090:8080"  
-      - "7077:7077" 
-    deploy:
-      resources:
-        limits:
-          cpus: '2'  
-    networks:
-      - books_network 
-
-  spark-worker-1:
-    build: .
-    command: bin/spark-class org.apache.spark.deploy.worker.Worker spark://spark-master:7077 
-    depends_on:
-      - spark-master  
-    environment:
-      SPARK_MODE: worker
-      SPARK_WORKER_CORES: 2 
-      SPARK_WORKER_MEMORY: 2g  
-      SPARK_MASTER_URL: spark://spark-master:7077 
+      - "4000:80"
     networks:
       - books_network
+
 
 networks:
   books_network:

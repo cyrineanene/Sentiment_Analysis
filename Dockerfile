@@ -3,16 +3,23 @@ FROM python:3.10.12-slim-buster
 WORKDIR /app
 
 COPY requirement.txt  /app/requirement.txt
+
 COPY datasets/ /app/datasets/
-COPY classifier.py /app/classifier.py
-COPY data_cleaning.py /app/data_cleaning.py
-COPY data_extraction.py /app/data_extraction.py
-COPY evaluation.py /app/evaluation.py
 COPY saved_model/ /app/saved_model/
+
+COPY classifier.py /app/classifier.py
+COPY data_cleaning_training.py /app/data_cleaning_training.py
+COPY data_cleaning_predictions.py /app/data_cleaning_predictions.py
+COPY data_extraction.py /app/data_extraction.py
+COPY consumer_pred.py /app/consumer_pred.py
+COPY consumer_producer.py /app/consumer_producer.py
+COPY kafka_consumer.py /app/kafka_consumer.py
+COPY kafka_producer.py /app/kafka_producer.py
 COPY model_training.py /app/model_training.py
+COPY model_prediction.py /app/model_prediction.py
 
 RUN pip install -r requirement.txt  
 
 RUN python -m nltk.downloader stopwords
 
-CMD ["python", "model_training.py"]  
+CMD ["python", "model_training.py", "model_prediction"]  

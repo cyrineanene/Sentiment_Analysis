@@ -12,7 +12,7 @@ def model_predict(filepath):
     preprocessor = DataPreprocessor_train()
     corpus = preprocessor.preprocess(df)
     corpus=loaded_vector.fit_transform(corpus).toarray()
-    print("shape = ", corpus.shape)
+    # print("shape = ", corpus.shape)
 
     y_pred=loaded__model.predict(corpus)
     return y_pred
