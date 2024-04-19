@@ -12,10 +12,9 @@ def model_predict(filepath):
     preprocessor = DataPreprocessor_train()
     corpus = preprocessor.preprocess(df)
     corpus=loaded_vector.fit_transform(corpus).toarray()
-    print("type =",type(corpus))
     print("shape = ", corpus.shape)
 
     y_pred=loaded__model.predict(corpus)
     return y_pred
 
-print(model_predict('/home/cyrine/Documents/SUPCOM/P2M/Sentiment_Analysis/sentiment_analysis/batches/data_batch.csv_1713526676.csv'))
+#print(model_predict('/home/cyrine/Documents/SUPCOM/P2M/Sentiment_Analysis/sentiment_analysis/batches/data_batch.csv_1713526676.csv'))

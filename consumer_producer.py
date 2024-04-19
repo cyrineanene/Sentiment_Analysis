@@ -35,8 +35,9 @@ def consume_data():
         data_batch.append(message.value)
         # Check if batch size is reached
         if len(data_batch) >= BATCH_SIZE:
-            save_batch(data_batch)
+            filepath=save_batch(data_batch)
             data_batch = []  # Reset batch
+            produce_data(process_data(filepath))
 
 def save_batch(data_batch):
     """
@@ -46,8 +47,7 @@ def save_batch(data_batch):
     timestamp = int(time.time())
     filepath = os.path.join(BATCH_FOLDER, f"{CSV_FILENAME}_{timestamp}.csv")
     df.to_csv(filepath, index=False)
-    print(f"Saved batch to {filepath}")
-    process_data(filepath)
+    return filepath
 
 def process_data(filepath):
     """
@@ -57,21 +57,20 @@ def process_data(filepath):
     # print(df.head())
     #model_predict 
     y_pred = model_predict(filepath)
+    os.unlink(filepath)
     return y_pred.tolist() 
 
 
 def produce_data(y_pred):
     """
     Produce data to a Kafka topic from a DataFrame.
-    """
-    print('hi')
-    
+    """ 
     producer = KafkaProducer(
         bootstrap_servers=[KAFKA_SERVER],
         value_serializer=lambda v: json.dumps(v).encode('utf-8')
     )
     for index, row in enumerate(y_pred):
-        record = {'row_index': index, 'data': row.tolist()}
+        record = {'data': y_pred}
     producer.send(OUTPUT_TOPIC, value=record)
     print(f"Sent message to {OUTPUT_TOPIC}: {record}")
     time.sleep(1)
@@ -84,6 +83,6 @@ def produce_data(y_pred):
 
 # Example usage
 while True: 
-    pred = consume_data()
-    produce_data(pred)
+    consume_data()
+    
     time.sleep(1)
