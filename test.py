@@ -1,42 +1,45 @@
-from data_extraction import extract_lines
-from data_cleaning_training import DataPreprocessor
-from classifier import TextModel
-import pandas as pd
-from sklearn.model_selection import train_test_split
-from star_generator_cleaning import merge_dataframes
-from star_generator import StarGenerator
-from star_generator_cleaning import CleanText
+import pickle
+from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.naive_bayes import MultinomialNB
 
-path1= 'datasets/BR.csv'
-path2= 'datasets/books1.csv'
+class StarGenerator:
+    def __init__(self):
+        # Initialize to None; will be loaded from files
+        self.vectorizer = None
+        self.classifier = None
 
-def model_train(path1, path2):
-    star_model=StarGenerator()
-
-    df1 = pd.read_csv(path1)
-    df2 = pd.read_csv(path2)
-    df=merge_dataframes(df1,df2,'Title')
-
-    df['review/text'] = df['review/text'].apply(CleanText(df).clean_text)
-    X =star_model.vectorizer.fit_transform(corpus).toarray()
-#should be continued this is the train function
+    def predict(self, X_test):
+        # Use the classifier to predict
+        return self.classifier.predict(X_test)
     
+    def load(self, model_filename='saved_model/star_generator.pkl', vectorizer_filename='saved_model/vectorizer_star_generator.pkl'):
+        # Correctly load the vectorizer and classifier from their respective files
+        with open(vectorizer_filename, 'rb') as vectorizer_file:
+            self.vectorizer = pickle.load(vectorizer_file)
+        with open(model_filename, 'rb') as model_file:
+            self.classifier = pickle.load(model_file)
 
-#     #data preparation
-#     preprocessor = DataPreprocessor()
-#     corpus = preprocessor.preprocess(df)
+# Function to process and predict new input text
+def predict_new_text(classifier, vectorizer, text):
+    # Transform the input text to the same format as the model was trained on
+    X_test = vectorizer.transform([text])  # Ensure this uses transform, not fit_transform
+    # Predict and return the result
+    return classifier.predict(X_test)
 
-#     #model NLP fitting
-#     text_model = TextModel()
-#     X = text_model.vectorizer.fit_transform(corpus).toarray()
-#     y = df['sentiment']
+# Main function to handle user input and model testing
+def main():
+    # Load the pre-trained model and vectorizer
+    star_gen = StarGenerator()
+    star_gen.load()  # Make sure the correct paths are used
 
-#     #training model
-#     X_train, X_test, Y_train, Y_test = train_test_split(X, y, test_size=0.2, random_state=101)
-#     text_model.train(X_train, Y_train)
+    # Get user input
+    user_input = input("Enter text for prediction: ")
+    
+    # Process and predict
+    prediction = predict_new_text(star_gen.classifier, star_gen.vectorizer, user_input)
+    
+    # Output the prediction
+    print(f"Predicted Class: {prediction[0]}")
 
-#     #model saving
-#     df['sentiment'] = df['review'].apply(text_model.analyze_sentiment) #lezm el colonne taa texte esmha ykoun texte
-#     text_model.save("saved_model/count-Vectorizer.pkl", "saved_model/Classification.pkl")
-
-# model_train(path)
+if __name__ == "__main__":
+    main()

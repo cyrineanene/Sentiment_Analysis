@@ -23,7 +23,7 @@ def model_train(path):
     text_model.train(X_train, Y_train)
 
     #model saving
-    df['sentiment'] = df['review'].apply(text_model.analyze_sentiment) #lezm el colonne taa texte esmha ykoun texte
+    # df['sentiment'] = df['review'].apply(text_model.analyze_sentiment) #nahitha kater hasit zeyda ajouteha ken hasitha lezma wala khdemch
     text_model.save("saved_model/count-Vectorizer.pkl", "saved_model/Classification.pkl")
 
 model_train(path)
