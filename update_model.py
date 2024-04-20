@@ -24,7 +24,7 @@ def update_model(batch_file, week):
     if week % 5 == 0:  # Save the model every 5 weeks
         star_gen.save(f'saved_model/star_generator/star_generator_w{week}.pkl', f'saved_model/star_generator/vectorizer_star_generator_w{week}.pkl')
     
-        #write a script to decide between the two models
+        #write a script to decide between the two models saving the one who has the best accuracy
     print('model is partially trained successfully')
 
     # # Optional: Evaluate the model periodically => this will be done in a dashboard
