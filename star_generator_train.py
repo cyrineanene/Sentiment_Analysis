@@ -38,25 +38,3 @@ def model_train(path1, path2):
     evaluator.print_metrics()
 
 model_train(path1, path2)
-
-#should be continued this is the train function
-    
-
-#     #data preparation
-#     preprocessor = DataPreprocessor()
-#     corpus = preprocessor.preprocess(df)
-
-#     #model NLP fitting
-#     text_model = TextModel()
-#     X = text_model.vectorizer.fit_transform(corpus).toarray()
-#     y = df['sentiment']
-
-#     #training model
-#     X_train, X_test, Y_train, Y_test = train_test_split(X, y, test_size=0.2, random_state=101)
-#     text_model.train(X_train, Y_train)
-
-#     #model saving
-#     df['sentiment'] = df['review'].apply(text_model.analyze_sentiment) #lezm el colonne taa texte esmha ykoun texte
-#     text_model.save("saved_model/count-Vectorizer.pkl", "saved_model/Classification.pkl")
-
-# model_train(path)

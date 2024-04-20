@@ -17,6 +17,10 @@ COPY kafka_consumer.py /app/kafka_consumer.py
 COPY kafka_producer.py /app/kafka_producer.py
 COPY model_training.py /app/model_training.py
 COPY model_prediction.py /app/model_prediction.py
+COPY star_generator.py /app/star_generator.py
+COPY star_generator_cleaning.py /app/star_generator_cleaning.py
+COPY star_generator_train.py /app/star_generator_train.py
+COPY test.py /app/test.py
 
 RUN pip install -r requirement.txt  
 
