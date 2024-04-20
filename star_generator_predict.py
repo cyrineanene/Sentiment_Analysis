@@ -1,6 +1,5 @@
 import pickle
-from sklearn.feature_extraction.text import TfidfVectorizer
-from sklearn.naive_bayes import MultinomialNB
+#should be redone 
 
 class StarGenerator:
     def __init__(self):

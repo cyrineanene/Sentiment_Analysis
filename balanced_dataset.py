@@ -1,4 +1,5 @@
 import pandas as pd
+from data_extraction import extract_lines
 
 def balance_dataset(data, n_samples_per_class=10000):
     
@@ -11,7 +12,6 @@ def balance_dataset(data, n_samples_per_class=10000):
     balanced_data = balanced_data.sample(frac=1, random_state=42).reset_index(drop=True)
     
     return balanced_data
-
 
 df = pd.read_csv('datasets/BR.csv')  
 balanced_df = balance_dataset(df)
