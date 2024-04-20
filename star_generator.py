@@ -25,7 +25,7 @@ class StarGenerator:
         with open(vectorizer_filename, 'wb') as vectorizer_file:
             pickle.dump(self.vectorizer, vectorizer_file)
 
-    def load(self, model_filename='saved_model/star_generator/vvstar_generator.pkl', vectorizer_filename='saved_model/star_generator/vectorizer_star_generator.pkl'):
+    def load(self, model_filename='saved_model/star_generator/star_generator.pkl', vectorizer_filename='saved_model/star_generator/vectorizer_star_generator.pkl'):
         self.vectorizer = pickle.load(open(vectorizer_filename, 'rb'))
         self.classifier = pickle.load(open(model_filename, 'rb'))
         return self.classifier,self.vectorizer
