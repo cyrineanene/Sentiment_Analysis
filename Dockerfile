@@ -26,4 +26,4 @@ RUN pip install -r requirement.txt
 
 RUN python -m nltk.downloader stopwords
 
-CMD ["python", "model_training.py", "model_prediction"]  
+CMD ["python", "model_training.py", "model_prediction.py", "star_generator_train.py", "test.py"]  
