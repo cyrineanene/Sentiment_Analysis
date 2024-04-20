@@ -1,6 +1,6 @@
 import pandas as pd
 
-def balance_dataset(data, n_samples_per_class=10000):
+def balance_dataset(data, n_samples_per_class=20000):
     
     balanced_data = pd.DataFrame()
 
@@ -15,4 +15,4 @@ def balance_dataset(data, n_samples_per_class=10000):
 
 df = pd.read_csv('./BR3.csv')  
 balanced_df = balance_dataset(df)
-balanced_df.to_csv('balanced_dataset.csv', index=False) 
+balanced_df.to_csv('balanced_dataset2.csv', index=False) 

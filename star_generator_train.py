@@ -7,14 +7,14 @@ from star_generator_cleaning import merge_dataframes
 from star_generator import StarGenerator, Evaluation
 from star_generator_cleaning import CleanText
 
-path1= './balanced_dataset.csv'
-path2= 'datasets/books1.csv'
+path1= './BR4.csv'
+path2= 'datasets/books3.csv'
 
 def model_train(path1, path2):
     #merging two datasets
-    df1 = pd.read_csv(path1)
+    df = pd.read_csv(path1)
     df2 = pd.read_csv(path2)
-    df=merge_dataframes(df1,df2,'Title')
+    # df=merge_dataframes(df1,df2,'Title')
 
     #cleaing column text
     cleaner = CleanText()
