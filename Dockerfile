@@ -11,19 +11,25 @@ COPY classifier.py /app/classifier.py
 COPY data_cleaning_training.py /app/data_cleaning_training.py
 COPY data_cleaning_predictions.py /app/data_cleaning_predictions.py
 COPY data_extraction.py /app/data_extraction.py
+COPY model_training.py /app/model_training.py
+COPY model_prediction.py /app/model_prediction.py
+
 COPY consumer_pred.py /app/consumer_pred.py
 COPY consumer_producer.py /app/consumer_producer.py
 COPY kafka_consumer.py /app/kafka_consumer.py
 COPY kafka_producer.py /app/kafka_producer.py
-COPY model_training.py /app/model_training.py
-COPY model_prediction.py /app/model_prediction.py
+
+COPY balanced_dataset.py /app/balanced_dataset.py
 COPY star_generator.py /app/star_generator.py
 COPY star_generator_cleaning.py /app/star_generator_cleaning.py
 COPY star_generator_train.py /app/star_generator_train.py
-COPY test.py /app/test.py
+COPY star_generator_predict.py /app/star_generator_predict.py
 
 RUN pip install -r requirement.txt  
 
 RUN python -m nltk.downloader stopwords
+RUN python -m nltk.downloader wordnet
+RUN python -m nltk.downloader omw-1.4
 
-CMD ["python", "model_training.py", "model_prediction.py", "star_generator_train.py", "test.py"]  
+
+CMD ["python", "model_training.py", "model_prediction.py", "star_generator_train.py", "star_generator_predict.py"]  
