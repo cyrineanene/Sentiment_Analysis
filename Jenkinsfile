@@ -12,7 +12,7 @@ pipeline {
         stage('Install Dependencies') {
             steps {
                 echo 'Installing Python dependencies from requirements.txt...'
-                sh 'pip install -r requirements.txt'
+                sh 'pip install -r requirement.txt'
                 sh' python -m nltk.downloader stopwords'
                 sh 'python -m nltk.downloader wordnet'
                 sh 'python -m nltk.downloader omw-1.4'
