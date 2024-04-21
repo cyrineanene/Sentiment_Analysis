@@ -1,5 +1,7 @@
 FROM python:3.10.12-slim-buster
 
+EXPOSE 8080
+
 WORKDIR /app
 
 COPY requirement.txt  /app/requirement.txt
