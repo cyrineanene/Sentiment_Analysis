@@ -1,7 +1,7 @@
 import pandas as pd
-from star_generator.star_generator import StarGenerator, Evaluation
+from star_generator import StarGenerator, Evaluation
 import os
-from star_generator.star_generator_cleaning import CleanText
+from star_generator_cleaning import CleanText
 os.makedirs('batches', exist_ok=True)
 
 # Example data load function

@@ -1,5 +1,5 @@
 import pandas as pd
-from data_extraction.data_extraction import extract_lines
+from data_extraction import extract_lines
 
 def balance_dataset(data, n_samples_per_class=10000):
     

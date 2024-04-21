@@ -1,10 +1,10 @@
 #this consumer_producer: will first receive the messages from kafka producer then processes it and makes predictions then resends the data as producer
-from kafka import KafkaConsumer, KafkaProducer
+from kafka import KafkaConsumer
 import pandas as pd
 import os
 import time
 import json
-from star_generator.update_model import update_model
+from update_model import update_model
 
 # Constants
 INPUT_TOPIC = 'p2m'

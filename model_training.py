@@ -1,6 +1,6 @@
-from data_extraction.data_extraction import extract_lines
-from classifier.data_cleaning_training import DataPreprocessor
-from classifier.classifier import TextModel
+from data_extraction import extract_lines
+from data_cleaning_training import DataPreprocessor
+from classifier import TextModel
 import pandas as pd
 from sklearn.model_selection import train_test_split
 

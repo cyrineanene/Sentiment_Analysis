@@ -4,7 +4,7 @@ import pandas as pd
 import os
 import time
 import json
-from classifier.model_prediction import model_predict
+from model_prediction import model_predict
 
 # Constants
 INPUT_TOPIC = 'p2m'
