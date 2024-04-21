@@ -11,7 +11,7 @@ pipeline {
         stage('Build Docker Image') {
             steps {
                 script{
-                    sh 'docker build -t sentiment_models '
+                    sh 'docker build -t sentiment_models .'
                 }
             }
         }
