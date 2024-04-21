@@ -4,19 +4,44 @@ pipeline {
     stages {
         stage('Checkout Code') {
             steps {
-                checkout scmGit(branches: [[name: '*/test']], extensions: [], userRemoteConfigs: [[url: 'https://github.com/cyrineanene/sentiment_analysis']])
+                // Checkout from version control
+                checkout scm
             }
         }
 
-        stage('Build Docker Image') {
+        stage('Install Dependencies') {
             steps {
-                script{
-                    sh 'docker build -t sentiment_models .'
-                }
+                echo 'Installing Python dependencies from requirements.txt...'
+                sh 'pip install -r requirements.txt'
+                sh' python -m nltk.downloader stopwords'
+                sh 'python -m nltk.downloader wordnet'
+                sh 'python -m nltk.downloader omw-1.4'
+            }
+        }
+
+        stage('Run Kafka Producer') {
+            steps {
+                echo 'Running Kafka Producer...'
+                sh 'python kafka_producer.py'
+            }
+        }
+        
+        stage('Run Consumer Star Generator') {
+            steps {
+                echo 'Running Consumer Star Generator...'
+                sh 'python consumer_star_generator.py'
             }
         }
     }
-}        
+
+    post {
+        always {
+            echo 'Cleaning up...'
+            // Add any post-build clean up here if necessary
+        }
+    }
+}
+       
 //         stage('Run Docker Compose') {
 //             steps {
 //                 script {
