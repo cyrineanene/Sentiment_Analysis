@@ -9,14 +9,14 @@ COPY requirement.txt  /app/requirement.txt
 COPY datasets/ /app/datasets/
 COPY saved_model/ /app/saved_model/
 
-COPY classifier.py /app/classifier.py
-COPY data_cleaning_training.py /app/data_cleaning_training.py
-COPY data_cleaning_predictions.py /app/data_cleaning_predictions.py
-COPY data_extraction.py /app/data_extraction.py
-COPY model_training.py /app/model_training.py
-COPY model_prediction.py /app/model_prediction.py
+# COPY classifier.py /app/classifier.py
+# COPY data_cleaning_training.py /app/data_cleaning_training.py
+# COPY data_cleaning_predictions.py /app/data_cleaning_predictions.py
+# COPY data_extraction.py /app/data_extraction.py
+# COPY model_training.py /app/model_training.py
+# COPY model_prediction.py /app/model_prediction.py
 
-COPY consumer_producer.py /app/consumer_producer.py
+# COPY consumer_producer.py /app/consumer_producer.py
 COPY consumer_star_generator.py /app/consumer_star_generator.py
 COPY kafka_producer.py /app/kafka_producer.py
 
@@ -33,4 +33,4 @@ RUN python -m nltk.downloader stopwords
 RUN python -m nltk.downloader wordnet
 RUN python -m nltk.downloader omw-1.4
 
-CMD ["python", "kafka_producer.py", "consumer_star_generator.py", "update_model.py"]  
+CMD ["python", "kafka_producer.py", "consumer_star_generator.py"]  

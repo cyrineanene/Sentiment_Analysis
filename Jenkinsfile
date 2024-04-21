@@ -9,36 +9,27 @@ pipeline {
             }
         }
 
-        stage('Install Dependencies') {
+        stage('Build Docker Image') {
             steps {
-                echo 'Installing Python dependencies from requirements.txt...'
-                sh 'pip install -r requirement.txt'
+                sh 'docker build -t star_generator .'
 
             }
         }
 
-        stage('Run Kafka Producer') {
+        stage('Running Docker Image') {
             steps {
-                echo 'Running Kafka Producer...'
-                sh 'python3 kafka_producer.py'
+               sh 'docker run star_generator'
             }
         }
-        
-        stage('Run Consumer Star Generator') {
-            steps {
-                echo 'Running Consumer Star Generator...'
-                sh 'python3 consumer_star_generator.py'
-            }
-        }
-    }
 
-    post {
-        always {
-            echo 'Cleaning up...'
-            // Add any post-build clean up here if necessary
-        }
+        // stage('Stopping Docker Image') {
+        //     steps {
+        //        sh 'docker stop star_generator'
+        //     }
+        // }
     }
 }
+
        
 //         stage('Run Docker Compose') {
 //             steps {
