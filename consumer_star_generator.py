@@ -41,6 +41,7 @@ def consume_data():
             data_batch = []  # Reset batch
             week+=1
             update_model(filepath, week)
+            os.unlink(filepath)
             #week will be a multiply of 5 because each 5 weeks the model will be saved
 def save_batch(data_batch):
     """
