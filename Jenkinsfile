@@ -20,14 +20,14 @@ pipeline {
         stage('Run Kafka Producer') {
             steps {
                 echo 'Running Kafka Producer...'
-                sh 'python kafka_producer.py'
+                sh 'python3 kafka_producer.py'
             }
         }
         
         stage('Run Consumer Star Generator') {
             steps {
                 echo 'Running Consumer Star Generator...'
-                sh 'python consumer_star_generator.py'
+                sh 'python3 consumer_star_generator.py'
             }
         }
     }
