@@ -8,10 +8,10 @@ pipeline {
             }
         }
 
-        stage('Build Docker Compose') {
+        stage('Build Docker Image') {
             steps {
                 script{
-                    sh 'docker compose up '
+                    sh 'docker build -t sentiment_models '
                 }
             }
         }
