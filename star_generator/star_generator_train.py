@@ -1,11 +1,8 @@
-from data_extraction import extract_lines
-from data_cleaning_training import DataPreprocessor
-from classifier import TextModel
 import pandas as pd
 from sklearn.model_selection import train_test_split
-from star_generator_cleaning import merge_dataframes
-from star_generator import StarGenerator, Evaluation
-from star_generator_cleaning import CleanText
+from star_generator.star_generator_cleaning import merge_dataframes
+from star_generator.star_generator import StarGenerator, Evaluation
+from star_generator.star_generator_cleaning import CleanText
 
 path1= 'datasets/balanced_dataset.csv' #BR
 path2= 'datasets/books1.csv'

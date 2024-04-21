@@ -4,7 +4,7 @@ import pandas as pd
 import os
 import time
 import json
-from model_prediction import model_predict
+from star_generator.update_model import update_model
 
 # Constants
 INPUT_TOPIC = 'p2m'
@@ -31,14 +31,17 @@ def consume_data():
     )
     
     data_batch = []
+    week=0
     for message in consumer:
         data_batch.append(message.value)
         # Check if batch size is reached
         if len(data_batch) >= BATCH_SIZE:
             filepath=save_batch(data_batch)
             data_batch = []  # Reset batch
-            produce_data(process_data(filepath))
-
+            week+=1
+            update_model(filepath, week)
+            os.unlink(filepath)
+            #week will be a multiply of 5 because each 5 weeks the model will be saved
 def save_batch(data_batch):
     """
     Save a batch of data to a CSV file.
@@ -49,40 +52,7 @@ def save_batch(data_batch):
     df.to_csv(filepath, index=False)
     return filepath
 
-def process_data(filepath):
-    """
-    Load data from CSV, apply model predictions, and produce results to Kafka.
-    """
-    # df = pd.read_csv(filepath)
-    # print(df.head())
-    #model_predict 
-    y_pred = model_predict(filepath)
-    os.unlink(filepath)
-    return y_pred.tolist() 
-
-
-def produce_data(y_pred):
-    """
-    Produce data to a Kafka topic from a DataFrame.
-    """ 
-    producer = KafkaProducer(
-        bootstrap_servers=[KAFKA_SERVER],
-        value_serializer=lambda v: json.dumps(v).encode('utf-8')
-    )
-    for index, row in enumerate(y_pred):
-        record = {'data': y_pred}
-    producer.send(OUTPUT_TOPIC, value=record)
-    print(f"Sent message to {OUTPUT_TOPIC}: {record}")
-    time.sleep(1)
-
-    # producer.send(OUTPUT_TOPIC, value=y_pred)
-    # print(f"Sent message to {OUTPUT_TOPIC}: {y_pred}")
-    # time.sleep(1)
-    
-    
-
 # Example usage
 while True: 
     consume_data()
-    
     time.sleep(1)
