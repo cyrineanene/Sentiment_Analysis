@@ -12,7 +12,7 @@ pipeline {
         stage('Build Docker Image') {
             steps {
                 script{
-                    sh 'docker build -t star_generator .'
+                    sh 'docker build -t cyrine236/star_generator .'
                 }
             }
         }
@@ -23,7 +23,7 @@ pipeline {
                 withCredentials([string(credentialsId: 'dockerhub-pwd', variable: 'dockerhubpwd')]) {
                 sh 'docker login -u cyrine326 -p ${dockerhubpwd}'
 }
-                sh 'docker push star_generator'
+                sh 'docker push cyrine236/star_generator'
                }
             }
         }
