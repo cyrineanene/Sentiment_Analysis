@@ -2,33 +2,49 @@ pipeline {
     agent any
 
     stages {
-        stage('Build Docker Images') {
+        stage('Checkout Code') {
+            steps {
+                git 'https://github.com/cyrineanene/sentiment_analysis'
+            }
+        }
+        
+        stage('Run Docker Compose') {
             steps {
                 script {
-                    // Build Docker images for Python scripts
-                    docker.build('python_scripts')
+                    sh 'docker-compose up -d'
                 }
             }
         }
-        stage('Deploy') {
+        
+        stage('Run Tests') {
+            steps {
+                // Implement your testing scripts here
+                // This can be a health check or API response test
+            }
+        }
+        
+        stage('Deploy Model') {
+            steps {
+                // Steps to deploy the model, could be on a remote server or a cloud environment
+                script {
+                    // Example of scp command or could use any deployment script
+                }
+            }
+        }
+        
+        stage('Cleanup') {
             steps {
                 script {
-                    // Run Docker Compose to deploy services
-                    sh 'docker-compose -f docker-compose.yml up -d'
+                    sh 'docker-compose down'
                 }
             }
         }
     }
-
+    
     post {
         always {
-            // Clean up Docker containers after pipeline execution
-            cleanDocker()
+            // Actions to perform after pipeline completion, successful or not
+            echo 'Pipeline execution complete!'
         }
     }
-}
-
-def cleanDocker() {
-    // Stop and remove Docker containers
-    sh 'docker-compose -f docker-compose.yml down'
 }
