@@ -14,6 +14,7 @@ pipeline {
                     sh 'docker compose up'
                 }
             }
+        }
     }
 }        
 //         stage('Run Docker Compose') {
