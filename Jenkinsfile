@@ -7,7 +7,8 @@ pipeline {
                 checkout scmGit(branches: [[name: '*/test']], extensions: [], userRemoteConfigs: [[url: 'https://github.com/cyrineanene/sentiment_analysis']])
             }
         }
-        
+    }
+}        
 //         stage('Run Docker Compose') {
 //             steps {
 //                 script {
