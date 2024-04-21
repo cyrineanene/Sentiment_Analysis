@@ -4,31 +4,31 @@ pipeline {
     stages {
         stage('Checkout Code') {
             steps {
-                git 'https://github.com/cyrineanene/sentiment_analysis'
+                checkout scmGit(branches: [[name: '*/test']], extensions: [], userRemoteConfigs: [[url: 'https://github.com/cyrineanene/sentiment_analysis']])
             }
         }
         
-        stage('Run Docker Compose') {
-            steps {
-                script {
-                    sh 'docker-compose up -d'
-                }
-            }
-        }
+//         stage('Run Docker Compose') {
+//             steps {
+//                 script {
+//                     sh 'docker-compose up -d'
+//                 }
+//             }
+//         }
  
-        stage('Cleanup') {
-            steps {
-                script {
-                    sh 'docker-compose down'
-                }
-            }
-        }
-    }
+//         stage('Cleanup') {
+//             steps {
+//                 script {
+//                     sh 'docker-compose down'
+//                 }
+//             }
+//         }
+//     }
     
-    post {
-        always {
-            // Actions to perform after pipeline completion, successful or not
-            echo 'Pipeline execution complete!'
-        }
-    }
-}
+//     post {
+//         always {
+//             // Actions to perform after pipeline completion, successful or not
+//             echo 'Pipeline execution complete!'
+//         }
+//     }
+// }
