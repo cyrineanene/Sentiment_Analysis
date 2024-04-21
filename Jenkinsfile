@@ -11,22 +11,22 @@ pipeline {
 
         stage('Build Docker Image') {
             steps {
-                sh 'docker build -t star_generator .'
-
+                script{
+                    sh 'docker build -t star_generator .'
+                }
             }
         }
 
-        stage('Running Docker Image') {
+        stage('Push Image to Dockerhub') {
             steps {
-               sh 'docker run star_generator'
+               script{
+                withCredentials([string(credentialsId: 'dockerhub-pwd', variable: 'dockerhubpwd')]) {
+                sh 'docker login -u cyrine326 -p ${dockerhubpwd}'
+}
+                sh 'docker push star_generator'
+               }
             }
         }
-
-        // stage('Stopping Docker Image') {
-        //     steps {
-        //        sh 'docker stop star_generator'
-        //     }
-        // }
     }
 }
 
