@@ -1,1 +1,1 @@
-# P2M-MLOps
+# P2M: real time sentiment analysis
