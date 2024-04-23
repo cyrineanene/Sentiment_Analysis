@@ -1,1 +1,1 @@
-# P2M: real time sentiment analysis
+# Real-time sentiment analysis

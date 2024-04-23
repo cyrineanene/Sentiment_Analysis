@@ -1,16 +1,14 @@
 import re
-from sklearn.preprocessing import LabelEncoder
 from nltk.corpus import stopwords
 from nltk.stem import PorterStemmer
 
 class DataPreprocessor:
     def __init__(self):
-        self.label_encoder = LabelEncoder()
         self.stop_words = set(stopwords.words('english'))
         self.stemmer = PorterStemmer()
         
     def preprocess(self, data):
-        data['sentiment'] = self.label_encoder.fit_transform(data['sentiment'])
+        data['sentiment'] = data['sentiment'].apply(lambda x: 1 if x == 'positive' else 0)
         corpus = []
         for review in data['review']:
             review = re.sub('[^a-zA-Z]', ' ', review)

@@ -1,0 +1,4 @@
+scikit-learn==1.4.2
+pandas==2.2.0
+nltk==3.8.1
+kafka-python==2.0.2

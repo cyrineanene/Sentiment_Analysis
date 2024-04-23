@@ -1,5 +1,6 @@
 #minimizing the running time
 import csv
+import pandas as pd
 
 def extract_lines(input_file, output_file, num_lines):
     with open(input_file, 'r', newline='', encoding='utf-8') as infile, \
@@ -18,5 +19,8 @@ def extract_lines(input_file, output_file, num_lines):
                 writer.writerow(row)
             else:
                 break
+        return pd.read_csv(output_file)
 
-#extract_lines('./IMDB_Dataset.csv', 'newbooks.csv', 10000)
+df=extract_lines('datasets/Books_rating.csv', 'datasets/BR.csv', 50000)
+df1=extract_lines('datasets/books_data.csv', 'datasets/books1.csv', 50000)
+
