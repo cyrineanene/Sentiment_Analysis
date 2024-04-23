@@ -12,7 +12,7 @@ pipeline {
         stage('Build Docker Image') {
             steps {
                 script{
-                    sh 'docker build -t cyrine236/star_generator .'
+                    sh 'docker build -t star_generator .'
                 }
             }
         }
