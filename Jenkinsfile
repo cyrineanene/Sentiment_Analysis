@@ -12,7 +12,7 @@ pipeline {
         stage('Build Docker Image') {
             steps {
                 script{
-                    sh 'sudo docker build -t star_generator .'
+                    sh 'docker build -t star_generator .'
                 }
             }
         }
@@ -21,9 +21,9 @@ pipeline {
             steps {
                script{
                 withCredentials([string(credentialsId: 'dockerhub-pwd', variable: 'dockerhubpwd')]) {
-                sh 'sudo docker login -u cyrine326 -p ${dockerhubpwd}'
+                sh 'docker login -u cyrine326 -p ${dockerhubpwd}'
 }
-                sh 'sudo docker push cyrine236/star_generator'
+                sh 'docker push cyrine236/star_generator'
                }
             }
         }
