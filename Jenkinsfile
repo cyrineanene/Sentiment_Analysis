@@ -6,6 +6,12 @@ pipeline {
     }
     
     stages {
+        stage('Checkout Code') {
+        steps {
+                // Checkout from version control
+            checkout scm
+            }
+        }
         stage('Build') {
             steps {
                 script {
