@@ -21,4 +21,8 @@ def extract_lines(input_file, output_file, num_lines):
                 break
         return pd.read_csv(output_file)
 
+df=extract_lines('datasets/Books_rating.csv', 'datasets/BR.csv', 50000)
+df1=extract_lines('datasets/books_data.csv', 'datasets/books1.csv', 50000)
+
+
 extract_lines('./datasets/books_rating.csv','./BR4.csv',70000)

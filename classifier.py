@@ -4,7 +4,7 @@ from sklearn.naive_bayes import MultinomialNB
 from sklearn.metrics import f1_score, confusion_matrix, accuracy_score
 
 class TextModel:
-    def __init__(self, max_features=5000):
+    def __init__(self, max_features=100):
         self.vectorizer = TfidfVectorizer(max_features=max_features)
         self.classifier = MultinomialNB() #the algorithm
         
@@ -21,7 +21,7 @@ class TextModel:
     def load(self, vectorizer_path, model_path):
         self.vectorizer = pickle.load(open(vectorizer_path, 'rb'))
         self.classifier = pickle.load(open(model_path, 'rb'))
-
+        return self.classifier,self.vectorizer
     def analyze_sentiment(self, sentence):
         sentence_transformed = self.vectorizer.transform([sentence]).toarray()
         result = self.classifier.predict(sentence_transformed)[0]

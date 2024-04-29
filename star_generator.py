@@ -1,8 +1,8 @@
 import pickle
 from sklearn.feature_extraction.text import TfidfVectorizer
-from sklearn.model_selection import train_test_split
 from sklearn.naive_bayes import MultinomialNB
-from sklearn.metrics import  f1_score, confusion_matrix, accuracy_score
+from sklearn.metrics import  confusion_matrix, accuracy_score
+import numpy as np
 
 class StarGenerator:
     def __init__(self, max_features=100):
@@ -15,13 +15,17 @@ class StarGenerator:
     def predict(self, X_test):
         return self.classifier.predict(X_test)
     
-    def save(self, model_filename='saved_model/star_generator.pkl', vectorizer_filename='saved_model/vectorizer_star_generator.pkl'):
+    def partial_train(self, X_train, y_train, classes=np.arange(1, 6)):
+        X_train_tfidf = self.vectorizer.fit_transform(X_train)
+        self.classifier.partial_fit(X_train_tfidf, y_train, classes=classes)
+    
+    def save(self, model_filename='saved_model/star_generator/star_generator.pkl', vectorizer_filename='saved_model/star_generator/vectorizer_star_generator.pkl'):
         with open(model_filename, 'wb') as model_file:
             pickle.dump(self.classifier, model_file)
         with open(vectorizer_filename, 'wb') as vectorizer_file:
             pickle.dump(self.vectorizer, vectorizer_file)
 
-    def load(self, model_filename='saved_model/star_generator.pkl', vectorizer_filename='saved_model/vectorizer_star_generator.pkl'):
+    def load(self, model_filename='saved_model/star_generator/star_generator.pkl', vectorizer_filename='saved_model/star_generator/vectorizer_star_generator.pkl'):
         self.vectorizer = pickle.load(open(vectorizer_filename, 'rb'))
         self.classifier = pickle.load(open(model_filename, 'rb'))
         return self.classifier,self.vectorizer

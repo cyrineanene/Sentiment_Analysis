@@ -1,20 +1,17 @@
-from data_extraction import extract_lines
-# from data_cleaning_training import DataPreprocessor
-from classifier import TextModel
 import pandas as pd
 from sklearn.model_selection import train_test_split
 from star_generator_cleaning import merge_dataframes
 from star_generator import StarGenerator, Evaluation
 from star_generator_cleaning import CleanText
 
-path1= './BR4.csv'
-path2= 'datasets/books3.csv'
+path1= 'datasets/balanced_dataset.csv' #BR
+path2= 'datasets/books1.csv'
 
 def model_train(path1, path2):
     #merging two datasets
-    df = pd.read_csv(path1)
+    df1 = pd.read_csv(path1)
     df2 = pd.read_csv(path2)
-    # df=merge_dataframes(df1,df2,'Title')
+    df=merge_dataframes(df1,df2,'Title')
 
     #cleaing column text
     cleaner = CleanText()
