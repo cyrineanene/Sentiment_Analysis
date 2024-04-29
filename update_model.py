@@ -17,8 +17,7 @@ def update_model(batch_file, week):
     # for week in range(1, 10):  # simulate 10 weeks of updates
     cleaner = CleanText()
     X = X.apply(cleaner)
-    corpus= X.tolist()
-    
+    corpus=X.tolist()
     star_gen.partial_train(corpus, y)
     
     if week % 5 == 0:  # Save the model every 5 weeks
