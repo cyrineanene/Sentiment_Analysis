@@ -1,7 +1,4 @@
 scrape_configs:
-  - job_name: "machine_learning_model"
+  - job_name: "your_ml_model"
     static_configs:
-      - targets:
-          [
-            "http://localhost:9090/graph?g0.expr=&g0.tab=1&g0.display_mode=lines&g0.show_exemplars=0&g0.range_input=1h",
-          ]
+      - targets: ["localhost:8000"]
