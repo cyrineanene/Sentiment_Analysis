@@ -4,7 +4,7 @@ from prometheus_client import start_http_server, Gauge
 import time
 # Create a gauge metric for accuracy
 accuracy_gauge = Gauge('model_accuracy', 'Accuracy of the ML model')
-
+confusion_matrix_metric = Gauge('model_confusion_matrix', 'Confusion matrix of the ML model', ['row', 'column'])  # Updated metric definition
 import pickle
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.naive_bayes import MultinomialNB
@@ -91,6 +91,14 @@ def update_metrics():
    evaluation.calculate_metrics()
    accuracy = evaluation.accuracy
    accuracy_gauge.set(accuracy)
+   # Update confusion matrix metric
+   confusion_matrix = evaluation.confusion_matrix
+   classes = np.unique(y)  # Extract class labels
+    # Iterate over confusion matrix and set each cell value
+   for i, row_label in enumerate(classes):
+        for j, col_label in enumerate(classes):
+            cell_value = confusion_matrix[i][j]
+            confusion_matrix_metric.labels(row=row_label, column=col_label).set(cell_value)
    
   
 # Start the HTTP server to expose metrics
