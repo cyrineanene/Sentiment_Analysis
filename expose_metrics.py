@@ -1,7 +1,7 @@
 
 import os
 from prometheus_client import start_http_server, Gauge
-
+import time
 # Create a gauge metric for accuracy
 accuracy_gauge = Gauge('model_accuracy', 'Accuracy of the ML model')
 
@@ -84,15 +84,19 @@ evaluation.y_pred = y_pred
 evaluation.calculate_metrics()
 evaluation.print_metrics()
 
-# Call the modified model_train function with the dataset
-# model_train(df)
 
 # Calculate and set the accuracy metric in the gauge
-evaluation = Evaluation(y_test, y_pred)
-evaluation.calculate_metrics()
-accuracy = evaluation.accuracy
-accuracy_gauge.set(accuracy)
-
+def update_metrics():
+   evaluation = Evaluation(y_test, y_pred)
+   evaluation.calculate_metrics()
+   accuracy = evaluation.accuracy
+   accuracy_gauge.set(accuracy)
+   
+  
 # Start the HTTP server to expose metrics
 if __name__ == '__main__':
     start_http_server(8000)
+
+    while True:
+        update_metrics()
+        time.sleep(10)
