@@ -1,4 +1,13 @@
+# scrape_configs:
+#   - job_name: "star_generator"
+#     static_configs:
+#       - targets: ["localhost:8000"]
+
+global:
+  scrape_interval: 15s # How frequently to scrape targets by default.
+  scrape_timeout: 10s # How long until a scrape request times out.
+
 scrape_configs:
-  - job_name: "star_generator"
+  - job_name: "star_generator" # This is the name of the job. You can choose any meaningful name.
     static_configs:
-      - targets: ["localhost:8000"]
+      - targets: ["localhost:8000"] # The endpoint of your service exposing metrics. Change 'localhost:8000' to match your actual endpoint.
