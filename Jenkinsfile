@@ -1,118 +1,48 @@
 pipeline {
     agent any
-    
-    environment {
-        DOCKER_IMAGE = 'sentiment_analysis-python_scripts'
-    }
-    
+
     stages {
         stage('Checkout Code') {
-        steps {
+            steps {
                 // Checkout from version control
-            checkout scm
+                checkout scm
             }
         }
-        stage('Build') {
+        stage('Data Processing') {
             steps {
-                script {
-                    docker.build(env.DOCKER_IMAGE)
-                }
+                // Process data received from Kafka
+                sh 'python kafka_producer.py'
+                sh 'python consumer_star_generator.py'
             }
         }
-        
-        stage('Test') {
+        stage('Model Training') {
             steps {
-                // Add any testing steps here
+                // Train the sentiment analysis model
+                sh 'python star_generator_train.py'
             }
         }
-        
-        stage('Push to Docker Registry') {
+        stage('Model Evaluation') {
             steps {
-                script {
-                    withCredentials([usernamePassword(credentialsId: 'dockerhub-pwd', usernameVariable: 'cyrine326', passwordVariable: 'dockerhubpwd')]) {
-                        docker.withRegistry('https://hub.docker.com/repository/docker/cyrine326/sentiment_analysis/general', DOCKER_USERNAME, DOCKER_PASSWORD) {
-                            docker.image(env.DOCKER_IMAGE).push('latest')
-                        }
-                    }
-                }
+                // Evaluate the trained model
+                sh 'python star_generator_predict.py'
             }
         }
-        
-        stage('Deploy') {
+        stage('Model Deployment') {
             steps {
-                script {
-                    // Run the Docker image on your deployment environment
-                    sh 'docker run -d -p <HOST_PORT>:<CONTAINER_PORT> --name sentiment-analysis sentiment-analysis:latest'
-                }
+                // Deploy the model to production
+                sh 'kubectl apply -f model_deployment.yaml'
             }
+        }
+    }
+
+    post {
+        success {
+            // Send success notification
+            echo 'Model deployment successful!'
+        }
+        failure {
+            // Send failure notification
+            echo 'Model deployment failed!'
         }
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-// pipeline {
-//     agent any
-
-//     stages {
-//         stage('Checkout Code') {
-//             steps {
-//                 // Checkout from version control
-//                 checkout scm
-//             }
-//         }
-
-//         stage('Build Docker Image') {
-//             steps {
-//                 script{
-//                     sh 'docker build -t star_generator .'
-//                 }
-//             }
-//         }
-
-//         stage('Push Image to Dockerhub') {
-//             steps {
-//                script{
-//                 withCredentials([string(credentialsId: 'dockerhub-pwd', variable: 'dockerhubpwd')]) {
-//                 sh 'docker login -u cyrine326 -p ${dockerhubpwd}'
-// }
-//                 sh 'docker push cyrine236/star_generator'
-//                }
-//             }
-//         }
-//     }
-// }
-
-       
-//         stage('Run Docker Compose') {
-//             steps {
-//                 script {
-//                     sh 'docker-compose up -d'
-//                 }
-//             }
-//         }
- 
-//         stage('Cleanup') {
-//             steps {
-//                 script {
-//                     sh 'docker-compose down'
-//                 }
-//             }
-//         }
-//     }
-    
-//     post {
-//         always {
-//             // Actions to perform after pipeline completion, successful or not
-//             echo 'Pipeline execution complete!'
-//         }
-//     }
-// }
