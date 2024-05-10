@@ -11,20 +11,20 @@ pipeline {
         stage('Data Processing') {
             steps {
                 // Process data received from Kafka
-                sh 'python kafka_producer.py'
-                sh 'python consumer_star_generator.py'
+                sh 'python3 kafka_producer.py'
+                sh 'python3 consumer_star_generator.py'
             }
         }
         stage('Model Training') {
             steps {
                 // Train the sentiment analysis model
-                sh 'python star_generator_train.py'
+                sh 'python3 star_generator_train.py'
             }
         }
         stage('Model Evaluation') {
             steps {
                 // Evaluate the trained model
-                sh 'python star_generator_predict.py'
+                sh 'python3 star_generator_predict.py'
             }
         }
         stage('Model Deployment') {
