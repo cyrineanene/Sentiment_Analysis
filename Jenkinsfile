@@ -2,35 +2,16 @@ pipeline {
     agent any
 
     stages {
-        stage('Checkout Code') {
+        stage('Checkout') {
             steps {
-                // Checkout from version control
-                checkout scm
+                // Checkout code from GitHub
+                git 'https://github.com/cyrineanene/sentiment_analysis.git'
             }
         }
-        stage('Data Processing') {
+        stage('Execute Docker Compose') {
             steps {
-                // Process data received from Kafka
-                sh 'python3 kafka_producer.py'
-                sh 'python3 consumer_star_generator.py'
-            }
-        }
-        stage('Model Training') {
-            steps {
-                // Train the sentiment analysis model
-                sh 'python3 star_generator_train.py'
-            }
-        }
-        stage('Model Evaluation') {
-            steps {
-                // Evaluate the trained model
-                sh 'python3 star_generator_predict.py'
-            }
-        }
-        stage('Model Deployment') {
-            steps {
-                // Deploy the model to production
-                sh 'kubectl apply -f model_deployment.yaml'
+                // Execute Docker Compose
+                sh 'docker-compose up -d'
             }
         }
     }
