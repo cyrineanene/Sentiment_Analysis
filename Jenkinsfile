@@ -2,56 +2,85 @@ pipeline {
     agent any
 
     stages {
-        stage('Checkout Code') {
+        stage('Checkout') {
             steps {
-                // Checkout from version control
-                checkout scm
+                // Checkout code from GitHub
+                git 'https://github.com/cyrineanene/sentiment_analysis/'
             }
         }
-
-        stage('Build Docker Image') {
+        stage('Execute Docker Compose') {
             steps {
-                script{
-                    sh 'docker build -t star_generator .'
-                }
+                // Execute Docker Compose
+                sh 'docker-compose up -d'
             }
         }
-
-        stage('Push Image to Dockerhub') {
+        stage('Push to DockerHub') {
             steps {
-               script{
-                withCredentials([string(credentialsId: 'dockerhub-pwd', variable: 'dockerhubpwd')]) {
-                sh 'docker login -u cyrine326 -p ${dockerhubpwd}'
-}
-                sh 'docker push cyrine236/star_generator'
-               }
+                // Execute Docker Compose
+                sh 'docker-compose up -d'
+            }
+        }
+        stage('Deploy') {
+            steps {
+                // Execute Docker Compose
+                sh 'docker-compose up -d'
             }
         }
     }
 }
 
-       
-//         stage('Run Docker Compose') {
-//             steps {
-//                 script {
-//                     sh 'docker-compose up -d'
-//                 }
-//             }
-//         }
- 
-//         stage('Cleanup') {
-//             steps {
-//                 script {
-//                     sh 'docker-compose down'
-//                 }
-//             }
-//         }
+
+// pipeline {
+//     agent any
+//     environment {
+//         IMAGE_NAME = 'my-sentiment-analysis'
+//         DOCKER_REGISTRY = 'cyrine326/sentiment_analysis'
 //     }
-    
-//     post {
-//         always {
-//             // Actions to perform after pipeline completion, successful or not
-//             echo 'Pipeline execution complete!'
+//     stages {
+//         stage('Checkout') {
+//             steps {
+//                 // Pull the code from the repository
+//                 git 'https://github.com/cyrineanene/sentiment_analysis.git' 
+//             }
+//         }
+//         stage('Build') {
+//             steps {
+//                 script {
+//                     // Build Docker image
+//                     docker.build("${DOCKER_REGISTRY}/${IMAGE_NAME}:latest")
+//                 }
+//             }
+//         }
+//         stage('Test') {
+//             steps {
+//                 script {
+//                     // Run tests inside the Docker container
+//                     docker.image("${DOCKER_REGISTRY}/${IMAGE_NAME}:latest").inside {
+//                         sh 'python -m unittest discover -s tests'
+//                     }
+//                 }
+//             }
+//         }
+//         stage('Push') {
+//             steps {
+//                 script {
+//                     // Push Docker image to the registry
+//                     docker.withRegistry("https://${DOCKER_REGISTRY}", 'docker-credentials-id') {
+//                         docker.image("${DOCKER_REGISTRY}/${IMAGE_NAME}:latest").push()
+//                     }
+//                 }
+//             }
+//         }
+//         stage('Deploy to Kubernetes') {
+//             steps {
+//                 script {
+//                     // Deploy to Kubernetes
+//                     kubernetesDeploy(
+//                         configs: 'k8s-deployment.yml',
+//                         kubeConfig: [path: '/path/to/kubeconfig']
+//                     )
+//                 }
+//             }
 //         }
 //     }
 // }
