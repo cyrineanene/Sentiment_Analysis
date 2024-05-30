@@ -6,7 +6,7 @@ WORKDIR /app
 
 COPY requirement.txt  /app/requirement.txt
 
-# COPY datasets/ /app/datasets/
+COPY datasets/ /app/datasets/
 COPY saved_model/ /app/saved_model/
 
 # COPY consumer_star_generator.py /app/consumer_star_generator.py
