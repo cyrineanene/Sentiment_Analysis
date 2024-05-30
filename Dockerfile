@@ -25,4 +25,4 @@ RUN python3 -m nltk.downloader stopwords
 RUN python3 -m nltk.downloader wordnet
 RUN python3 -m nltk.downloader omw-1.4
 
-CMD ["python3", "kafka_producer.py", "consumer_star_generator.py"]  
+CMD ["python3", "star_generator_predict.py"]  
