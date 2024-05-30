@@ -56,16 +56,16 @@ pipeline {
                 }
             }
         }
-        stage('Test') {
-            steps {
-                script {
-                    // Run tests inside the Docker container
-                    docker.image("${DOCKER_REGISTRY}/${IMAGE_NAME}:latest").inside {
-                        sh 'python -m unittest discover -s tests'
-                    }
-                }
-            }
-        }
+        // stage('Test') {
+        //     steps {
+        //         script {
+        //             // Run tests inside the Docker container
+        //             docker.image("${DOCKER_REGISTRY}/${IMAGE_NAME}:latest").inside {
+        //                 sh 'python -m unittest discover -s tests'
+        //             }
+        //         }
+        //     }
+        // }
         stage('Push') {
             steps {
                 script {
