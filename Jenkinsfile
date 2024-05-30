@@ -5,7 +5,7 @@ pipeline {
         stage('Checkout') {
             steps {
                 // Checkout code from GitHub
-                git 'https://github.com/cyrineanene/sentiment_analysis.git'
+                git 'https://github.com/cyrineanene/sentiment_analysis/tree/cyrine'
             }
         }
         stage('Execute Docker Compose') {
