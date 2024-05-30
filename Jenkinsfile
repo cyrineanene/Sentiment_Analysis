@@ -14,16 +14,17 @@ pipeline {
                 sh 'docker-compose up -d'
             }
         }
-    }
-
-    post {
-        success {
-            // Send success notification
-            echo 'Model deployment successful!'
+        stage('Push to DockerHub') {
+            steps {
+                // Execute Docker Compose
+                sh 'docker-compose up -d'
+            }
         }
-        failure {
-            // Send failure notification
-            echo 'Model deployment failed!'
+        stage('Deploy') {
+            steps {
+                // Execute Docker Compose
+                sh 'docker-compose up -d'
+            }
         }
     }
 }
