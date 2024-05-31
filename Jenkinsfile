@@ -66,12 +66,14 @@ pipeline {
         //         }
         //     }
         // }
-        stage('Push') {
+        stage('Push to DockerHub') {
             steps {
                 script {
                     // Push Docker image to the registry
-                    docker.withRegistry("https://${DOCKER_REGISTRY}", 'docker-credentials-id') {
-                        docker.image("${DOCKER_REGISTRY}/${IMAGE_NAME}:latest").push()
+                   withCredentials([string(credentialsId: 'dockerhubpass', variable: 'dockerhubpass')]) {
+                    sh 'docker login -u cyrine326 -p ${dockerhubpass}'
+}
+                    sh 'docker push sentiment_analysis_python_scripts'
                     }
                 }
             }
@@ -82,7 +84,7 @@ pipeline {
                     // Deploy to Kubernetes
                     kubernetesDeploy(
                         configs: 'k8s-deployment.yml',
-                        kubeConfig: [path: '/path/to/kubeconfig']
+                        kubeConfig: [path: './deployment.yml']
                     )
                 }
             }
