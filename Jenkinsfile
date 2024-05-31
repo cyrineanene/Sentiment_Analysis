@@ -73,7 +73,7 @@ pipeline {
                    withCredentials([string(credentialsId: 'dockerhubpass', variable: 'dockerhubpass')]) {
                     sh 'docker login -u cyrine326 -p ${dockerhubpass}'
 }
-                    sh 'docker push sentiment_analysis_python_scripts'
+                    sh 'docker push cyrine326/sentiment_analysis:sentiment_analysis_python_scripts'
                     }
                 }
             }
