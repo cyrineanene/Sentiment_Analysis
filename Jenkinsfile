@@ -9,8 +9,12 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                // Checkout the source code from the GitHub repository
+                script{
+                    // Checkout the source code from the GitHub repository
                checkout scmGit(branches: [[name: '*/main']], extensions: [], userRemoteConfigs: [[url: 'https://github.com/cyrineanene/sentiment_analysis.git']])
+
+                }
+                
             }
         }
 
