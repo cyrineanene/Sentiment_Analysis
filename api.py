@@ -1,6 +1,6 @@
 from flask import Flask, request, jsonify
 import numpy as np
-from star_generator import StarGenerator
+from StarGenerator.star_generator import StarGenerator
 
 #create the app
 app = Flask(__name__)
