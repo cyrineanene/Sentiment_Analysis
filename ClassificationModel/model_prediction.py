@@ -1,5 +1,5 @@
-from data_cleaning_predictions import DataPreprocessor_train
-from classifier import TextModel
+from ClassificationModel.data_cleaning_predictions import DataPreprocessor_train
+from ClassificationModel.classifier import TextModel
 import pandas as pd
 
 def model_predict(filepath):

@@ -1,5 +1,5 @@
 from star_generator_cleaning import CleanText_predict
-from star_generator import StarGenerator
+from StarGenerator.star_generator import StarGenerator
 
 
 # Function to process and predict new input text

@@ -12,10 +12,10 @@ from sklearn.metrics import  confusion_matrix, accuracy_score
 import numpy as np
 import pandas as pd
 from sklearn.model_selection import train_test_split
-from star_generator_cleaning import merge_dataframes
-from star_generator import StarGenerator, Evaluation
-from star_generator_cleaning import CleanText
-import star_generator
+from StarGenerator.star_generator_cleaning import merge_dataframes
+from StarGenerator.star_generator import StarGenerator, Evaluation
+from StarGenerator.star_generator_cleaning import CleanText
+import StarGenerator.star_generator as star_generator
 path1= 'datasets/balanced_dataset.csv' #BR
 
 df = pd.read_csv(path1)
