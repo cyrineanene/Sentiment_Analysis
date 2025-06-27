@@ -32,9 +32,10 @@ class Evaluation:
         self.y_true = y_true
         self.y_pred = y_pred
 
-    def calculate_metrics(self):
-        self.f1 = f1_score(self.y_true, self.y_pred, average='binary')  
-        self.confusion_matrix = confusion_matrix(self.y_true, self.y_pred)
+    def calculate_metrics(self, labels=None):
+        # Use labels parameter to ensure both classes are considered in metrics
+        self.f1 = f1_score(self.y_true, self.y_pred, average='binary', labels=labels, zero_division=0)
+        self.confusion_matrix = confusion_matrix(self.y_true, self.y_pred, labels=labels)
         self.accuracy = accuracy_score(self.y_true, self.y_pred)
 
     def print_metrics(self):

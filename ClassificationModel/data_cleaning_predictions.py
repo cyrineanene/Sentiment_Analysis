@@ -9,7 +9,7 @@ class DataPreprocessor_train:
         
     def preprocess(self, data):
         corpus = []
-        for review in data['review/text']:
+        for review in data['review']:
             review = re.sub('[^a-zA-Z]', ' ', review)
             review = review.lower()
             review = review.split()
