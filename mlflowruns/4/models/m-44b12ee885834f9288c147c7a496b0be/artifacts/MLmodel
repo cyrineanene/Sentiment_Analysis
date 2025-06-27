@@ -1,0 +1,22 @@
+artifact_path: file:///C:/Users/cyrine.anene_amaris/Documents/sentiment_analysis/Sentiment_Analysis/mlflowruns/4/models/m-44b12ee885834f9288c147c7a496b0be/artifacts
+flavors:
+  python_function:
+    env:
+      conda: conda.yaml
+      virtualenv: python_env.yaml
+    loader_module: mlflow.sklearn
+    model_path: model.pkl
+    predict_fn: predict
+    python_version: 3.10.6
+  sklearn:
+    code: null
+    pickled_model: model.pkl
+    serialization_format: cloudpickle
+    sklearn_version: 1.4.2
+mlflow_version: 3.1.1
+model_id: m-44b12ee885834f9288c147c7a496b0be
+model_size_bytes: 1004234
+model_uuid: m-44b12ee885834f9288c147c7a496b0be
+prompts: null
+run_id: f3dfddaec8b04fbf8465a9f1563d6211
+utc_time_created: '2025-06-27 20:19:52.551015'

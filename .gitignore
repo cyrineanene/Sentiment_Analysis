@@ -3,3 +3,4 @@ datasets/
 *.pkl
 *.csv
 venv/
+.env
