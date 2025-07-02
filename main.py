@@ -11,6 +11,7 @@ import mlflow.sklearn
 from ClassificationModel.data_cleaning_training import DataPreprocessor
 import dagshub
 from dotenv import load_dotenv
+from mlflow.tracking import MlflowClient
 # Load .env file with debugging
 load_dotenv()
 
@@ -179,6 +180,7 @@ if __name__ == "__main__":
     print(f"MLflow tracking URI set to: {mlflow_tracking_uri}")
 
     # Set MLflow credentials
+    client = MlflowClient()
     os.environ["MLFLOW_TRACKING_USERNAME"] = dagshub_username
     os.environ["MLFLOW_TRACKING_PASSWORD"] = dagshub_token
 
@@ -234,10 +236,10 @@ if __name__ == "__main__":
         mlflow.log_artifact("confusion_matrix.txt")
 
         # Log and register model
-        mlflow.sklearn.log_model(text_model.classifier, model_name)
+        mlflow.sklearn.log_model(text_model, "MultinomialNB")
         model_uri = f"runs:/{run.info.run_id}/{model_name}"
         mlflow.register_model(model_uri=model_uri, name=model_name)
 
         # Compare and promote model
-        client = mlflow.tracking.MlflowClient()
+        # client = mlflow.tracking.MlflowClient()
         compare_and_promote_model(run.info.run_id, model_name, report_dict, client)
